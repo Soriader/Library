@@ -11,7 +11,7 @@ public class LibraryDatabase
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;");
+            optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;");
         }
     }
 }
