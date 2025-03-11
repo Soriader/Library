@@ -57,24 +57,24 @@ public class BookService
         return isAvailable;
     }
     
-    private string GetUserInput(string prompt)
+    private string GetUserInput(string user)
     {
         string userInput;
         do
         {
-            Console.WriteLine(prompt);
+            Console.WriteLine(user);
             userInput = Console.ReadLine();
         } while (string.IsNullOrEmpty(userInput));
 
         return userInput;
     }
 
-    private bool ConfirmUserInput(string prompt)
+    private bool ConfirmUserInput(string user)
     {
         string userInput;
         do
         {
-            Console.WriteLine(prompt);
+            Console.WriteLine(user);
             userInput = Console.ReadLine();
         } while (userInput != "yes" && userInput != "no");
 
