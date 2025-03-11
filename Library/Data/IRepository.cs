@@ -2,7 +2,7 @@
 
 namespace Library;
 
-public interface IRepository<T> 
+public interface IRepository<T> where T : class 
 {
     void Insert(T entity);
     T GetById(int entityId);
