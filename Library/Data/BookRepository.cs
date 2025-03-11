@@ -5,35 +5,43 @@ namespace Library;
 
 public class BookRepository : IRepository<Book>
 {
-    private readonly LibraryDbContext _context;
+    private readonly LibraryDbContext _context = null;
+    private DbSet<Book> Books = null;
+
+    public BookRepository()
+    {
+        _context = new LibraryDbContext();
+        Books = _context.Set<Book>();
+    }
 
     public void Insert(Book entity)
     {
-        throw new NotImplementedException();
+        Books.Add(entity);
     }
 
     public Book GetById(int entityId)
     {
-        throw new NotImplementedException();
+        return Books.Find(entityId);
     }
 
     public IEnumerable<Book> GetAll()
     {
-        throw new NotImplementedException();
+        return Books.ToList();
     }
 
     public void Update(Book entity)
     {
-        throw new NotImplementedException();
+        Books.Attach(entity);
+        _context.Entry(entity).State = EntityState.Modified;
     }
 
     public void Delete(int entityId)
     {
-        throw new NotImplementedException();
+        Books.Remove(GetById(entityId));
     }
 
     public void Save()
     {
-        throw new NotImplementedException();
+        _context.SaveChanges();
     }
 }
