@@ -4,28 +4,14 @@ namespace Library;
 
 public class BookService
 {
-    
-    public BookService(int id, string title, string author, bool isAvailable)
+    private readonly BookRepository _bookRepository;
+    public BookService()
     {
-        var newBook = new Book();
-        newBook.Id = id;
-        newBook.Title = title;
-        newBook.Author = author;
-        newBook.IsAvailable = isAvailable;
+        _bookRepository = new BookRepository();
     }
-    
-    public BookService AddBook(int id, string title, string author, bool isAvailable)
+    private string GetTitle()
     {
-        return new BookService(AddId(id), AddTitle(title), AddAuthor(author), IsAvailable(isAvailable));
-    }
-
-    private int AddId(int id)
-    {
-        return id;
-    }
-    private string AddTitle(string title)
-    {
-        title = GetUserInput("Please enter the name of the book you would like to add");
+        var title = GetUserInput("Please enter the name of the book you would like to add");
     
         if (ConfirmUserInput("This answer is correct? yes/no"))
         {
@@ -47,15 +33,11 @@ public class BookService
         }
     }
 
-    private string AddAuthor(string author)
+    private string GetAuthor()
     {
-        return author;
+        return "";
     }
-
-    private bool IsAvailable(bool isAvailable)
-    {
-        return isAvailable;
-    }
+    
     
     private string GetUserInput(string user)
     {
