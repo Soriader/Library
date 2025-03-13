@@ -3,10 +3,11 @@
 using Library;
 using Library.Models;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("Welcome to the Library!");
 
+var bookService = new BookService();
 var bookRepository = new BookRepository();
-var book = new Book("Ozyrys", "Mróz Remigiusz");
+var book = new Book(bookService.GetTitle(), bookService.GetAuthor());
 book.IsAvailable = true;
 bookRepository.Insert(book);
 bookRepository.Save();

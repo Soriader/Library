@@ -9,7 +9,7 @@ public class BookService
     {
         _bookRepository = new BookRepository();
     }
-    private string GetTitle()
+    public string GetTitle()
     {
         var title = GetUserInput("Please enter the name of the book you would like to add");
     
@@ -20,25 +20,60 @@ public class BookService
         else
         {
             title = GetUserInput("Please write correct title");
-        
+
             if (ConfirmUserInput("This answer is correct? yes/no"))
             {
                 return title;
             }
             else
             {
-                Console.WriteLine("Please write correct title");
-                return null;
+                while (true)
+                {
+                    title = GetUserInput("Please write correct title!");
+                    
+                    if (ConfirmUserInput("This answer is correct? yes/no"))
+                    {
+                        break;
+                    }
+                }
+                return title;
             }
         }
     }
 
-    private string GetAuthor()
+    public string GetAuthor()
     {
-        return "";
+        var author = GetUserInput("Please enter the name of the author you would like to add");
+
+        if (ConfirmUserInput("This answer is correct? yes/no"))
+        {
+            return author;
+        }
+        else
+        {
+            author = GetUserInput("Please write correct author");
+
+            if (ConfirmUserInput("This answer is correct? yes/no"))
+            {
+                return author;
+            }
+            else
+            {
+                while (true)
+                {
+                    author = GetUserInput("Please write correct author!");
+                    
+                    if (ConfirmUserInput("This answer is correct? yes/no"))
+                    {
+                        break;
+                    }
+                }
+                return author;
+            }
+        }
     }
-    
-    
+
+
     private string GetUserInput(string user)
     {
         string userInput;
@@ -57,11 +92,12 @@ public class BookService
         do
         {
             Console.WriteLine(user);
-            userInput = Console.ReadLine();
+            userInput = Console.ReadLine().ToLower();
         } while (userInput != "yes" && userInput != "no");
 
         return userInput == "yes";
     }
+    
 
     /*private static bool IsCorrect(string user) //not needed now but in the future it can be necessary
     {
