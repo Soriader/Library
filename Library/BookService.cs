@@ -73,6 +73,72 @@ public class BookService
         }
     }
 
+    public string GetCategory()
+    {
+        var category = GetUserInputForInt("Please enter the number of the category of this book. We have five category" 
+                                          + "\n1. Fantasy"
+                                          + "\n2. Sci-Fi"
+                                          + "\n3. Thriller/Crime"
+                                          + "\n4. Romance"
+                                          + "\n5. Young Adult");
+
+        if (ConfirmUserInput("This answer is correct? yes/no"))
+        {
+            string answer = "";
+            switch (category)
+            {
+                case "1":
+                {
+                    category = "Fantasy";
+                    break;
+                }
+                case "2":
+                {
+                    category = "Sci-Fi";
+                    break;
+                }
+                case "3":
+                {
+                    category = "Thriller";
+                    break;
+                }
+                case "4":
+                {
+                    category = "Romance";
+                    break;
+                }
+                case "5":
+                {
+                    category = "Young Adult";
+                    break;
+                }
+            }
+            
+            return category;
+        }
+        else
+        {
+            category = GetUserInputForInt("Please write correct category");
+
+            if (ConfirmUserInput("This answer is correct? yes/no"))
+            {
+                return category;
+            }
+            else
+            {
+                while (true)
+                {
+                    category = GetUserInputForInt("Please write correct author!");
+                    
+                    if (ConfirmUserInput("This answer is correct? yes/no"))
+                    {
+                        break;
+                    }
+                }
+                return category;
+            }
+        }
+    }
 
     private string GetUserInput(string user)
     {
@@ -82,6 +148,31 @@ public class BookService
             Console.WriteLine(user);
             userInput = Console.ReadLine();
         } while (string.IsNullOrEmpty(userInput));
+
+        return userInput;
+    }
+    
+    private string GetUserInputForInt(string prompt)
+    {
+        string userInput;
+        int number;
+        bool isValid;
+
+        do
+        {
+            Console.WriteLine(prompt); 
+            userInput = Console.ReadLine();
+
+            bool isNumber = int.TryParse(userInput, out number);
+
+            isValid = isNumber && number >= 1 && number <= 5;
+
+            if (!isValid)
+            {
+                Console.WriteLine("Błąd: Wprowadź liczbę od 1 do 5.");
+            }
+
+        } while (!isValid);
 
         return userInput;
     }
@@ -97,18 +188,4 @@ public class BookService
 
         return userInput == "yes";
     }
-    
-
-    /*private static bool IsCorrect(string user) //not needed now but in the future it can be necessary
-    {
-        Console.WriteLine("Is your answer is correct? yes/no");
-        var yesOrNo = Console.ReadLine() == "yes" ? true : false;
-
-        if (yesOrNo)
-        {
-            return true;
-        }
-        
-        return false;
-    }*/
 }

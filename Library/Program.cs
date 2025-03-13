@@ -7,7 +7,7 @@ Console.WriteLine("Welcome to the Library!");
 
 var bookService = new BookService();
 var bookRepository = new BookRepository();
-var book = new Book(bookService.GetTitle(), bookService.GetAuthor());
+var book = new Book(bookService.GetTitle(), bookService.GetAuthor(), bookService.GetCategory());
 book.IsAvailable = true;
 bookRepository.Insert(book);
 bookRepository.Save();
