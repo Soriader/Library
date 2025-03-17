@@ -6,8 +6,12 @@ using Library.Models;
 Console.WriteLine("Welcome to the Library!");
 
 var bookService = new BookService();
+var findTheBook = new FindTheBook();
 var bookRepository = new BookRepository();
-var book = new Book(bookService.GetTitle(), bookService.GetAuthor(), bookService.GetCategory());
+
+findTheBook.BookFinder();
+
+/*var book = new Book(bookService.GetTitle(), bookService.GetAuthor(), bookService.GetCategory());
 book.IsAvailable = true;
 bookRepository.Insert(book);
-bookRepository.Save();
+bookRepository.Save();*/

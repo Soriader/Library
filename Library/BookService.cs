@@ -169,7 +169,7 @@ public class BookService
 
             if (!isValid)
             {
-                Console.WriteLine("Błąd: Wprowadź liczbę od 1 do 5.");
+                Console.WriteLine("Error: Enter a number from 1 to 5.");
             }
 
         } while (!isValid);

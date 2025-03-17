@@ -5,99 +5,94 @@ namespace Library;
 
 public class FindTheBook
 {
-    public FindTheBook(Book bookWhatINeed)
+    private string connectionString =
+        "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
+
+    public string BookFinder()
     {
-        Book book = bookWhatINeed;
-    }
+        Book foundBook = FindTheBookFromDatabase();
 
-
-    public string CorrectTheTitle()
-    {
-        Console.WriteLine("Ok you choose to find the book by title, please enter the title");
-        var title = Console.ReadLine().Trim();
-
-        if (ConfirmUserInput("This answer is correct? yes/no"))
+        if (foundBook != null)
         {
-            return title;
+            Console.WriteLine($"Book found: {foundBook.Title} by {foundBook.Author}");
         }
-        else
-        {
-            title = GetUserInput("Please write correct title");
 
-            if (ConfirmUserInput("This answer is correct? yes/no"))
-            {
-                return title;
-            }
-            else
-            {
-                while (true)
-                {
-                    title = GetUserInput("Please write correct title!");
-                    
-                    if (ConfirmUserInput("This answer is correct? yes/no"))
-                    {
-                        break;
-                    }
-                }
-                return title;
-            }
-        }
-        
+        return "Book not found.";
+
     }
     
-    public string CorrectTheAuthor()
+    public Book FindTheBookFromDatabase()
     {
-        Console.WriteLine("Ok you choose to find the book by author, please enter the author");
-        var author = Console.ReadLine().Trim();
+        Console.WriteLine("You want to find the book by:" 
+                          + "\n1. Name of book" 
+                          + "\n2. Name of author");
+        
+        var answer = Console.ReadLine();
 
-        if (ConfirmUserInput("This answer is correct? yes/no"))
+        if (int.TryParse(answer, out int option) && (option == 1 || option == 2))
         {
-            return author;
+            string searchTerm = GetUserInput(option == 1 ? "Please enter the book title:" : "Please enter the author name:");
+            return FindTheBookBy(searchTerm, option);
         }
         else
         {
-            author = GetUserInput("Please write correct title");
-
-            if (ConfirmUserInput("This answer is correct? yes/no"))
-            {
-                return author;
-            }
-            else
-            {
-                while (true)
-                {
-                    author = GetUserInput("Please write correct title!");
-                    
-                    if (ConfirmUserInput("This answer is correct? yes/no"))
-                    {
-                        break;
-                    }
-                }
-                return author;
-            }
+            Console.WriteLine("Invalid option selected.");
+            return null;
         }
     }
-    private bool ConfirmUserInput(string user)
+
+    private Book FindTheBookBy(string searchTerm, int option)
+    {
+        string query = option == 1 
+            ? "SELECT * FROM Books WHERE Title = @SearchTerm" 
+            : "SELECT * FROM Books WHERE Author = @SearchTerm";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@SearchTerm", searchTerm);
+
+            connection.Open();
+            SqlDataReader reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                return new Book(
+                    reader["Title"].ToString(),
+                    reader["Author"].ToString(),
+                    reader["Category"].ToString()
+                )
+                {
+                    Id = Convert.ToInt32(reader["Id"]),
+                    IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
+                };
+            }
+        }
+
+        return null;
+    }
+
+    private string GetUserInput(string prompt)
     {
         string userInput;
         do
         {
-            Console.WriteLine(user);
+            Console.WriteLine(prompt);
+            userInput = Console.ReadLine().Trim();
+        } while (string.IsNullOrEmpty(userInput) || !ConfirmUserInput($"Is '{userInput}' correct? (yes/no)"));
+
+        return userInput;
+    }
+
+    private bool ConfirmUserInput(string message)
+    {
+        string userInput;
+        do
+        {
+            Console.WriteLine(message);
             userInput = Console.ReadLine().ToLower();
         } while (userInput != "yes" && userInput != "no");
 
         return userInput == "yes";
-    }
-    
-    private string GetUserInput(string user)
-    {
-        string userInput;
-        do
-        {
-            Console.WriteLine(user);
-            userInput = Console.ReadLine();
-        } while (string.IsNullOrEmpty(userInput));
-
-        return userInput;
     }
 }
