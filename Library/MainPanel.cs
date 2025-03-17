@@ -6,8 +6,7 @@ public class MainPanel
 {
     public void Menu()
     {
-        Console.WriteLine("Welcome to the Library!"
-                          + "\nPlease enter the name of the category you would like to run:"
+        Console.WriteLine("Please enter the name of the category you would like to run:"
                           + "\n1.Add new book" 
                           + "\n2.Find the book");
         
@@ -25,13 +24,16 @@ public class MainPanel
                     book.IsAvailable = true;
                     bookRepository.Insert(book);
                     bookRepository.Save();
+                    Continue();
                     break;
+                    
                 }
 
                 case 2:
                 {
                     var findTheBook = new FindTheBook();
                     findTheBook.BookFinder();
+                    Continue();
                     break;
                 }
             }
@@ -43,6 +45,38 @@ public class MainPanel
 
     private void Continue()
     {
+        Console.WriteLine("You want to do something else or exit?"
+                          + "\n1.Back to Main Menu"
+                          + "\n2.Exit");
+            
+        var answer = Console.ReadLine();
+
+        if (!int.TryParse(answer, out int option) || (option != 1 || option != 2))
+        {
+            while (true)
+            {
+                Console.WriteLine("Please write correct number!");
+                answer = Console.ReadLine();
+
+                if (int.TryParse(answer, out option) && (option == 1 || option == 2))
+                {
+                    break;
+                }
+            }
+        }
         
+        switch (option)
+        {
+            case 1:
+            {
+                Menu();
+                break;
+            }
+            case 2:
+            {
+                Console.WriteLine("Thanks for visiting!");
+                break;
+            }
+        }
     }
 }
