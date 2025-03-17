@@ -14,11 +14,12 @@ public class FindTheBook
 
         if (foundBook != null)
         {
-            Console.WriteLine($"Book found: {foundBook.Title} by {foundBook.Author}");
+            return $"Book found: {foundBook.Title} by {foundBook.Author}";
         }
 
-        return "Book not found.";
-
+        Console.WriteLine("Book not found");
+        return null;
+        
     }
     
     public Book FindTheBookFromDatabase()
@@ -64,7 +65,7 @@ public class FindTheBook
                 )
                 {
                     Id = Convert.ToInt32(reader["Id"]),
-                    IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
+                    IsAvailable = Convert.ToBoolean(reader["IsAvailable"]),
                 };
             }
         }
