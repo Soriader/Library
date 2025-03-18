@@ -7,41 +7,70 @@ public class EditTheExistBooks
 {
     private string connectionString =
         "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
-    
-    private FindTheBook FindTheBook;
-    public Book BookEditor()
-    {
-        FindTheBook.BookFinder();
-        
-        if (FindTheBook.BookFinder() != null)
-        {
-            Console.WriteLine("Ok write the part of the book you want to edit" 
-                              +"\n1. Name of book" 
-                              +"\n2. Author" 
-                              +"\n3. Category");
-            
-            var answer = Console.ReadLine();
-            
-            if (!int.TryParse(answer, out int option) || (option != 1 || option != 2 || option != 3))
-            {
-                while (true)
-                {
-                    Console.WriteLine("Please write correct number!");
-                    answer = Console.ReadLine();
 
-                    if (int.TryParse(answer, out option) && (option == 1 || option == 2 || option == 3))
-                    {
-                        break;
-                    }
+    private FindTheBook findTheBook;
+
+    public EditTheExistBooks()
+    {
+        findTheBook = new FindTheBook();
+    }
+
+    public void BookEditor()
+    {
+        var bookToFind = findTheBook.FindTheBookFromDatabase();
+
+        if (bookToFind != null)
+        {
+            Console.WriteLine($"Book found: {bookToFind.Title} by {bookToFind.Author}");
+
+            Console.WriteLine("Which part of the book do you want to edit?"
+                              + "\n1. Title"
+                              + "\n2. Author"
+                              + "\n3. Category");
+
+            int option;
+            while (true)
+            {
+                var answer = Console.ReadLine();
+                if (int.TryParse(answer, out option) && (option == 1 || option == 2 || option == 3))
+                {
+                    break;
+                }
+                Console.WriteLine("Please enter a valid number (1, 2, or 3)!");
+            }
+
+            Console.WriteLine("Enter the new value:");
+            string newValue = Console.ReadLine();
+
+            // Aktualizacja wybranego parametru
+            switch (option)
+            {
+                case 1:
+                {
+                    bookToFind.Title = newValue;
+                    break;
+                }
+                case 2:
+                {
+                    bookToFind.Author = newValue;
+                    break;
+                }
+                case 3:
+                {
+                    bookToFind.Category = newValue;
+                    break;
                 }
             }
-            
+
+            UpdateBookInDatabase(bookToFind);
+            Console.WriteLine("Book updated successfully!");
         }
-        
-        Console.WriteLine("Book not found");
-        return null;
+        else
+        {
+            Console.WriteLine("Book not found.");
+        }
     }
-    
+
     private void UpdateBookInDatabase(Book book)
     {
         string query = "UPDATE Books SET Title = @Title, Author = @Author, Category = @Category WHERE Id = @Id";
@@ -57,18 +86,10 @@ public class EditTheExistBooks
             connection.Open();
             command.ExecuteNonQuery();
         }
-
-        Console.WriteLine("Book updated successfully.");
     }
-    
-    /*private bool BookExists(string answer) //Now I don't need it but in the future it's kind of helpful
+
+    private void CategoryValidation()
     {
-        if (FindTheBook.BookFinder() != null)
-        {
-            return true;
-        }
         
-        return false;
-    }*/
-    
+    }
 }
