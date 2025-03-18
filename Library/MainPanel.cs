@@ -18,7 +18,7 @@ public class MainPanel
             {
                 case 1:
                 {
-                    var bookService = new BookService();
+                    var bookService = new AddNewBook();
                     var bookRepository = new BookRepository();
                     var book = new Book(bookService.GetTitle(), bookService.GetAuthor(), bookService.GetCategory());
                     book.IsAvailable = true;

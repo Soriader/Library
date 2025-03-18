@@ -2,10 +2,10 @@
 
 namespace Library;
 
-public class BookService
+public class AddNewBook
 {
     private readonly BookRepository _bookRepository;
-    public BookService()
+    public AddNewBook()
     {
         _bookRepository = new BookRepository();
     }

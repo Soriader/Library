@@ -9,6 +9,7 @@ public class EditTheExistBooks
         "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
 
     private FindTheBook findTheBook;
+    private AddNewBook addNewBookMethod;
 
     public EditTheExistBooks()
     {
@@ -40,23 +41,26 @@ public class EditTheExistBooks
             }
 
             Console.WriteLine("Enter the new value:");
-            string newValue = Console.ReadLine();
 
             // Aktualizacja wybranego parametru
             switch (option)
             {
                 case 1:
                 {
+                    string newValue = Console.ReadLine();
                     bookToFind.Title = newValue;
                     break;
                 }
                 case 2:
                 {
+                    string newValue = Console.ReadLine();
                     bookToFind.Author = newValue;
                     break;
                 }
                 case 3:
                 {
+                    string newValue = Console.ReadLine();
+                    CategoryValidation(newValue);
                     bookToFind.Category = newValue;
                     break;
                 }
@@ -88,8 +92,9 @@ public class EditTheExistBooks
         }
     }
 
-    private void CategoryValidation()
+    private bool CategoryValidation(string newValue)
     {
-        
+        Console.WriteLine("Please choose the category");
+        return false;
     }
 }
