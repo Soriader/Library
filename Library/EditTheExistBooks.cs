@@ -5,7 +5,7 @@ namespace Library;
 
 public class EditTheExistBooks
 {
-    private string connectionString =
+     private string connectionString =
         "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
 
     private FindTheBook findTheBook;
@@ -14,64 +14,61 @@ public class EditTheExistBooks
     public EditTheExistBooks()
     {
         findTheBook = new FindTheBook();
+        addNewBookMethod = new AddNewBook();
     }
 
     public void BookEditor()
     {
-        var bookToFind = findTheBook.FindTheBookFromDatabase();
-
-        if (bookToFind != null)
+        try
         {
-            Console.WriteLine($"Book found: {bookToFind.Title} by {bookToFind.Author}");
+            var bookToFind = findTheBook.FindTheBookFromDatabase();
 
-            Console.WriteLine("Which part of the book do you want to edit?"
-                              + "\n1. Title"
-                              + "\n2. Author"
-                              + "\n3. Category");
-
-            int option;
-            while (true)
+            if (bookToFind != null)
             {
-                var answer = Console.ReadLine();
-                if (int.TryParse(answer, out option) && (option == 1 || option == 2 || option == 3))
+                Console.WriteLine($"Book found: {bookToFind.Title} by {bookToFind.Author}");
+
+                Console.WriteLine("Which part of the book do you want to edit?"
+                                  + "\n1. Title"
+                                  + "\n2. Author"
+                                  + "\n3. Category");
+
+                int option;
+                while (true)
                 {
-                    break;
+                    var answer = Console.ReadLine();
+                    if (int.TryParse(answer, out option) && (option == 1 || option == 2 || option == 3))
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Please enter a valid number (1, 2, or 3)!");
                 }
-                Console.WriteLine("Please enter a valid number (1, 2, or 3)!");
+
+                Console.WriteLine("Enter the new value:");
+
+                switch (option)
+                {
+                    case 1:
+                        bookToFind.Title = addNewBookMethod.GetTitle();
+                        break;
+                    case 2:
+                        bookToFind.Author = addNewBookMethod.GetAuthor();
+                        break;
+                    case 3:
+                        bookToFind.Category = addNewBookMethod.GetCategory();
+                        break;
+                }
+
+                UpdateBookInDatabase(bookToFind);
+                Console.WriteLine("Book updated successfully!");
             }
-
-            Console.WriteLine("Enter the new value:");
-
-            // Aktualizacja wybranego parametru
-            switch (option)
+            else
             {
-                case 1:
-                {
-                    string newValue = Console.ReadLine();
-                    bookToFind.Title = newValue;
-                    break;
-                }
-                case 2:
-                {
-                    string newValue = Console.ReadLine();
-                    bookToFind.Author = newValue;
-                    break;
-                }
-                case 3:
-                {
-                    string newValue = Console.ReadLine();
-                    CategoryValidation(newValue);
-                    bookToFind.Category = newValue;
-                    break;
-                }
+                Console.WriteLine("Book not found.");
             }
-
-            UpdateBookInDatabase(bookToFind);
-            Console.WriteLine("Book updated successfully!");
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Book not found.");
+            Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
 
@@ -90,11 +87,5 @@ public class EditTheExistBooks
             connection.Open();
             command.ExecuteNonQuery();
         }
-    }
-
-    private bool CategoryValidation(string newValue)
-    {
-        Console.WriteLine("Please choose the category");
-        return false;
     }
 }
