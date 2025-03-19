@@ -9,12 +9,12 @@ public class EditTheExistBooks
         "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
 
     private FindTheBook findTheBook;
-    private AddNewBook addNewBookMethod;
+    private AddNewBook changeTheBookPropertise;
 
     public EditTheExistBooks()
     {
         findTheBook = new FindTheBook();
-        addNewBookMethod = new AddNewBook();
+        changeTheBookPropertise = new AddNewBook();
     }
 
     public void BookEditor()
@@ -48,13 +48,13 @@ public class EditTheExistBooks
                 switch (option)
                 {
                     case 1:
-                        bookToFind.Title = addNewBookMethod.GetTitle();
+                        bookToFind.Title = changeTheBookPropertise.GetTitle();
                         break;
                     case 2:
-                        bookToFind.Author = addNewBookMethod.GetAuthor();
+                        bookToFind.Author = changeTheBookPropertise.GetAuthor();
                         break;
                     case 3:
-                        bookToFind.Category = addNewBookMethod.GetCategory();
+                        bookToFind.Category = changeTheBookPropertise.GetCategory();
                         break;
                 }
 
