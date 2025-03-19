@@ -6,7 +6,8 @@ namespace Library;
 public class RemoveBook
 {
     private FindTheBook findTheBook;
-
+    private string connectionString =
+        "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
     public RemoveBook()
     {
         findTheBook = new FindTheBook();
@@ -33,7 +34,6 @@ public class RemoveBook
 
     private bool DeleteBookFromDatabase(int bookId)
     {
-        string connectionString = "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
         string query = "DELETE FROM Books WHERE Id = @BookId";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
