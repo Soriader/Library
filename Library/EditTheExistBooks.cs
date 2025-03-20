@@ -5,23 +5,23 @@ namespace Library;
 
 public class EditTheExistBooks
 {
-     private string connectionString =
-        "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
 
-    private FindTheBook findTheBook;
+    private readonly FindTheBook _findTheBook;
     private AddNewBook changeTheBookPropertise;
+    private readonly BookRepository _bookRepository;
 
     public EditTheExistBooks()
     {
-        findTheBook = new FindTheBook();
-        changeTheBookPropertise = new AddNewBook();
+        _findTheBook = new FindTheBook();
+        _bookRepository = new BookRepository();
+        
     }
 
     public void BookEditor()
     {
         try
         {
-            var bookToFind = findTheBook.FindTheBookFromDatabase();
+            var bookToFind = _findTheBook.FindTheBookFromDatabase();
 
             if (bookToFind != null)
             {
@@ -58,7 +58,8 @@ public class EditTheExistBooks
                         break;
                 }
 
-                UpdateBookInDatabase(bookToFind);
+                _bookRepository.Update(bookToFind);
+                _bookRepository.Save();
                 Console.WriteLine("Book updated successfully!");
             }
             else
@@ -71,21 +72,5 @@ public class EditTheExistBooks
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
-
-    private void UpdateBookInDatabase(Book book)
-    {
-        string query = "UPDATE Books SET Title = @Title, Author = @Author, Category = @Category WHERE Id = @Id";
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@Title", book.Title);
-            command.Parameters.AddWithValue("@Author", book.Author);
-            command.Parameters.AddWithValue("@Category", book.Category);
-            command.Parameters.AddWithValue("@Id", book.Id);
-
-            connection.Open();
-            command.ExecuteNonQuery();
-        }
-    }
+    
 }

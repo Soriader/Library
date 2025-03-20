@@ -4,6 +4,19 @@ namespace Library;
 
 public class MainPanel
 {
+    private readonly AddNewBook _addNewBook;
+    private readonly FindTheBook _findTheBook;
+    private readonly EditTheExistBooks _editTheExistBooks;
+    private readonly BookRepository _bookRepository;
+    
+    public MainPanel()
+    {
+        _addNewBook = new AddNewBook();
+        _findTheBook = new FindTheBook();
+        _editTheExistBooks = new EditTheExistBooks();
+        _bookRepository = new BookRepository();
+    }
+    
     public void Menu()
     {
         Console.WriteLine("Please enter the name of the category you would like to run:"
@@ -19,28 +32,24 @@ public class MainPanel
             {
                 case 1:
                 {
-                    var bookService = new AddNewBook();
-                    var bookRepository = new BookRepository();
-                    var book = new Book(bookService.GetTitle(), bookService.GetAuthor(), bookService.GetCategory());
+                    var book = new Book(_addNewBook.GetTitle(), _addNewBook.GetAuthor(), _addNewBook.GetCategory());
                     book.IsAvailable = true;
-                    bookRepository.Insert(book);
-                    bookRepository.Save();
+                    _bookRepository.Insert(book);
+                    _bookRepository.Save();
                     Continue();
                     break;
                 }
 
                 case 2:
                 {
-                    var findTheBook = new FindTheBook();
-                    findTheBook.BookFinder();
+                    _findTheBook.BookFinder();
                     Continue();
                     break;
                 }
 
                 case 3:
                 {
-                    var editTheExistBooks = new EditTheExistBooks();
-                    editTheExistBooks.BookEditor();
+                    _editTheExistBooks.BookEditor();
                     Continue();
                     break;
                 }

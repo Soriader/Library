@@ -7,7 +7,7 @@ public class BookRepository : IRepository<Book>
 {
     private readonly LibraryDbContext _context = null;
     private DbSet<Book> Books = null;
-
+    
     public BookRepository()
     {
         _context = new LibraryDbContext();
@@ -17,6 +17,16 @@ public class BookRepository : IRepository<Book>
     public void Insert(Book entity)
     {
         Books.Add(entity);
+    }
+
+    public Book GetByTitle(string title)
+    {
+        return Books.FirstOrDefault(b => b.Title.ToLower() == title.ToLower());
+    }
+
+    public Book GetByAuthor(string author)
+    {
+        return Books.FirstOrDefault(b => b.Author.ToLower() == author.ToLower());
     }
 
     public Book GetById(int entityId)

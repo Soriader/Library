@@ -5,56 +5,25 @@ namespace Library;
 
 public class RemoveBook
 {
-    private FindTheBook findTheBook;
-    private string connectionString =
-        "Server=localhost\\SQLEXPRESS;Database=LibraryApp;Integrated Security=True;TrustServerCertificate=true;";
+    private readonly FindTheBook _findTheBook;
+    private readonly BookRepository _bookRepository;
+
     public RemoveBook()
     {
-        findTheBook = new FindTheBook();
+        _findTheBook = new FindTheBook();
+        _bookRepository = new BookRepository();
     }
 
     public string DeleteBook()
     {
-        var bookForDelete = findTheBook.FindTheBookFromDatabase();
+        var bookForDelete = _findTheBook.FindTheBookFromDatabase();
 
         if (bookForDelete != null)
         {
-            if (DeleteBookFromDatabase(bookForDelete.Id))
-            {
-                return $"Book '{bookForDelete.Title}' by {bookForDelete.Author} has been removed.";
-            }
-            else
-            {
-                return "Failed to remove the book.";
-            }
+            _bookRepository.Delete(bookForDelete.Id);
+            return $"Book '{bookForDelete.Title}' by {bookForDelete.Author} has been removed.";
         }
 
         return "Book not found.";
-    }
-
-    private bool DeleteBookFromDatabase(int bookId)
-    {
-        string query = "DELETE FROM Books WHERE Id = @BookId";
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@BookId", bookId);
-
-                    int rowsAffected = command.ExecuteNonQuery();
-
-                    return rowsAffected > 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error deleting book: " + ex.Message);
-                return false;
-            }
-        }
     }
 }
