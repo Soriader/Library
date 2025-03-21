@@ -21,6 +21,7 @@ public class RemoveBook
         if (bookForDelete != null)
         {
             _bookRepository.Delete(bookForDelete.Id);
+            _bookRepository.Save();
             return $"Book '{bookForDelete.Title}' by {bookForDelete.Author} has been removed.";
         }
 

@@ -8,6 +8,7 @@ public class MainPanel
     private readonly FindTheBook _findTheBook;
     private readonly EditTheExistBooks _editTheExistBooks;
     private readonly BookRepository _bookRepository;
+    private readonly RemoveBook _removeBook;
     
     public MainPanel()
     {
@@ -15,6 +16,7 @@ public class MainPanel
         _findTheBook = new FindTheBook();
         _editTheExistBooks = new EditTheExistBooks();
         _bookRepository = new BookRepository();
+        _removeBook = new RemoveBook();
     }
     
     public void Menu()
@@ -22,11 +24,12 @@ public class MainPanel
         Console.WriteLine("Please enter the name of the category you would like to run:"
                           + "\n1.Add new book"
                           + "\n2.Find the book"
-                          + "\n3.Change the properties of the selected book");
+                          + "\n3.Change the properties of the selected book"
+                          + "\n4.Delete of the selected book");
 
         var answer = Console.ReadLine();
 
-        if (int.TryParse(answer, out int option) && (option == 1 || option == 2 || option == 3))
+        if (int.TryParse(answer, out int option) && (option == 1 || option == 2 || option == 3 || option == 4))
         {
             switch (option)
             {
@@ -50,6 +53,13 @@ public class MainPanel
                 case 3:
                 {
                     _editTheExistBooks.BookEditor();
+                    Continue();
+                    break;
+                }
+                
+                case 4:
+                {
+                    _removeBook.DeleteBook();
                     Continue();
                     break;
                 }
