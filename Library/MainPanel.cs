@@ -9,6 +9,7 @@ public class MainPanel
     private readonly EditTheExistBooks _editTheExistBooks;
     private readonly BookRepository _bookRepository;
     private readonly RemoveBook _removeBook;
+    private readonly BorrowTheBook _borrowTheBook;
     
     public MainPanel()
     {
@@ -17,6 +18,7 @@ public class MainPanel
         _editTheExistBooks = new EditTheExistBooks();
         _bookRepository = new BookRepository();
         _removeBook = new RemoveBook();
+        _borrowTheBook = new BorrowTheBook();
     }
     
     public void Menu()
@@ -25,11 +27,16 @@ public class MainPanel
                           + "\n1.Add new book"
                           + "\n2.Find the book"
                           + "\n3.Change the properties of the selected book"
-                          + "\n4.Delete of the selected book");
+                          + "\n4.Delete of the selected book"
+                          + "\n5.Borrow the selected book");
 
         var answer = Console.ReadLine();
 
-        if (int.TryParse(answer, out int option) && (option == 1 || option == 2 || option == 3 || option == 4))
+        if (int.TryParse(answer, out int option) && (option == 1 
+                                                     || option == 2 
+                                                     || option == 3 
+                                                     || option == 4
+                                                     || option == 5))
         {
             switch (option)
             {
@@ -60,6 +67,13 @@ public class MainPanel
                 case 4:
                 {
                     _removeBook.DeleteBook();
+                    Continue();
+                    break;
+                }
+
+                case 5:
+                {
+                    _borrowTheBook.Borrow();
                     Continue();
                     break;
                 }
