@@ -140,6 +140,11 @@ public class AddNewBook
         }
     }
 
+    public int GetISBN()
+    {
+        return 1;
+    }
+
     private string GetUserInput(string user)
     {
         string userInput;

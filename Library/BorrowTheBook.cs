@@ -43,6 +43,7 @@ public class BorrowTheBook
             return true; 
         }
 
+        Console.WriteLine("Book is not available, you cant't borrow");
         return false;
     }
 }

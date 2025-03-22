@@ -46,7 +46,11 @@ public class MainPanel
             {
                 case 1:
                 {
-                    var book = new Book(_addNewBook.GetTitle(), _addNewBook.GetAuthor(), _addNewBook.GetCategory());
+                    var book = new Book(_addNewBook.GetTitle(), 
+                        _addNewBook.GetAuthor(), 
+                        _addNewBook.GetCategory(),
+                        _addNewBook.GetISBN());
+                    
                     book.IsAvailable = true;
                     _bookRepository.Insert(book);
                     _bookRepository.Save();
