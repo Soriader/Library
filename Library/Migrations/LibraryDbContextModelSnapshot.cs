@@ -37,8 +37,8 @@ namespace Library.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ISBN")
-                        .HasColumnType("int");
+                    b.Property<long>("ISBN")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");

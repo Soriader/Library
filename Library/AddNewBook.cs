@@ -140,20 +140,45 @@ public class AddNewBook
         }
     }
 
-    public int GetISBN()
+    public long GetISBN()
     {
-        int code = CorrectISBN("Please enter the ISBN of the book you would like to add" +
-                    "\nThis code need 13 numbers");
-
+        long code = CorrectISBN("Please enter the ISBN of the book you would like to add" +
+                               "\nThis code needs 13 numbers:");
         return code;
     }
 
-
-    private int CorrectISBN(string ISBN)
+    private long CorrectISBN(string prompt)
     {
-        return 1;
-    }
+        long code = 0;
+        bool isValid = false;
 
+        while (!isValid)
+        {
+            Console.WriteLine(prompt);
+            string input = Console.ReadLine();
+
+            // Sprawdź, czy input ma dokładnie 13 znaków i czy wszystkie znaki są cyframi
+            if (input.Length == 13 && input.All(char.IsDigit))
+            {
+                // Przekonwertuj ciąg na long
+                if (long.TryParse(input, out code))
+                {
+                    isValid = true; // Kod jest poprawny, wychodzimy z pętli
+                }
+                else
+                {
+                    Console.WriteLine("Invalid ISBN code. It must be a valid 13-digit number.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid ISBN code. It must be exactly 13 digits long and contain only numbers.");
+            }
+        }
+
+        return code;
+    }
+    
     private string GetUserInput(string user)
     {
         string userInput;

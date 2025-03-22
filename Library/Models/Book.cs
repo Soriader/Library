@@ -3,7 +3,7 @@
 public class Book
 {
 
-    public Book(string title, string author, string category, int ISBN)
+    public Book(string title, string author, string category, long ISBN)
     {
         this.Title = title;
         this.Author = author;
@@ -13,7 +13,7 @@ public class Book
     public int Id { get; set; }
     public string Title { get; set; }
     public string Author { get; set; }
-    public int ISBN { get; set; }
+    public long ISBN { get; set; }
     public string Category { get; set; }
     public bool IsAvailable { get; set; }
 }
