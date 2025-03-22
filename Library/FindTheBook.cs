@@ -12,7 +12,7 @@ public class FindTheBook
     {
         _bookRepository = new BookRepository();
     }
-
+    
     public string BookFinder()
     {
         Book foundBook = FindTheBookFromDatabase();
@@ -21,10 +21,9 @@ public class FindTheBook
         {
             return $"Book found: {foundBook.Title} by {foundBook.Author}";
         }
-
-        Console.WriteLine("Book not found");
-        return null;
         
+        Console.WriteLine("Book not found in the database.");
+        return "Book not found";
     }
 
     public Book FindTheBookFromDatabase()
@@ -37,7 +36,7 @@ public class FindTheBook
 
         if (int.TryParse(answer, out int error) && error != 1 && error != 2)
         {
-            Console.WriteLine("Invalid option choosen.");
+            Console.WriteLine("Invalid option chosen.");
             return null;
         }
         

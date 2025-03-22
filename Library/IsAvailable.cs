@@ -20,8 +20,7 @@ public class IsAvailable
             Console.WriteLine($"{book.Title} {book.Author} is available");
             return true;
         }
-
-        Console.WriteLine("Book is not available");
+        
         return false;
     }
 }

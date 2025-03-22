@@ -26,6 +26,10 @@ public class BorrowTheBook
         {
             BookIsAvailable(book);
         }
+        else
+        {
+            Console.WriteLine("Book is not available");
+        }
     }
 
     private bool BookIsAvailable(Book book)
