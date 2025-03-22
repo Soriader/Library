@@ -157,13 +157,11 @@ public class AddNewBook
             Console.WriteLine(prompt);
             string input = Console.ReadLine();
 
-            // Sprawdź, czy input ma dokładnie 13 znaków i czy wszystkie znaki są cyframi
             if (input.Length == 13 && input.All(char.IsDigit))
             {
-                // Przekonwertuj ciąg na long
                 if (long.TryParse(input, out code))
                 {
-                    isValid = true; // Kod jest poprawny, wychodzimy z pętli
+                    isValid = true;
                 }
                 else
                 {

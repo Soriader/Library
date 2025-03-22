@@ -8,6 +8,7 @@ public class Book
         this.Title = title;
         this.Author = author;
         this.Category = category;
+        this.ISBN = ISBN;
     }
     
     public int Id { get; set; }

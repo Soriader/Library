@@ -31,8 +31,7 @@ public class MainPanel
                           + "\n3.Change the properties of the selected book"
                           + "\n4.Delete of the selected book"
                           + "\n5.Borrow the selected book"
-                          + "\n6.Return the selected book"
-                          + "\n7.Test");
+                          + "\n6.Return the selected book");
 
         var answer = Console.ReadLine();
 
@@ -41,8 +40,7 @@ public class MainPanel
                                                      || option == 3 
                                                      || option == 4
                                                      || option == 5 
-                                                     || option == 6 
-                                                     || option == 7))
+                                                     || option == 6))
         {
             switch (option)
             {
@@ -91,13 +89,6 @@ public class MainPanel
                 case 6:
                 {
                     _returnTheBook.BookReturn();
-                    Continue();
-                    break;
-                }
-                
-                case 7:
-                {
-                    _addNewBook.GetISBN();
                     Continue();
                     break;
                 }
