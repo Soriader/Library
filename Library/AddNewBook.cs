@@ -142,6 +142,15 @@ public class AddNewBook
 
     public int GetISBN()
     {
+        int code = CorrectISBN("Please enter the ISBN of the book you would like to add" +
+                    "\nThis code need 13 numbers");
+
+        return code;
+    }
+
+
+    private int CorrectISBN(string ISBN)
+    {
         return 1;
     }
 
