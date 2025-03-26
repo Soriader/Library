@@ -11,7 +11,7 @@ public class MainPanel
     private readonly RemoveBook _removeBook;
     private readonly BorrowTheBook _borrowTheBook;
     private readonly ReturnTheBook _returnTheBook;
-    private readonly AllBooks _allBooks;
+    private readonly UIService _uiService;
     
     public MainPanel()
     {
@@ -22,7 +22,7 @@ public class MainPanel
         _removeBook = new RemoveBook();
         _borrowTheBook = new BorrowTheBook();
         _returnTheBook = new ReturnTheBook();
-        _allBooks = new AllBooks();
+        _uiService = new UIService();
     }
     
     public void Menu()
@@ -50,10 +50,10 @@ public class MainPanel
             {
                 case 1:
                 {
-                    var book = new Book(_addNewBook.GetTitle(), 
-                        _addNewBook.GetAuthor(), 
-                        _addNewBook.GetCategory(),
-                        _addNewBook.GetISBN());
+                    var book = new Book(_uiService.GetTitle(), 
+                        _uiService.GetAuthor(), 
+                        _uiService.GetCategory(),
+                        _uiService.GetISBN());
                     
                     book.IsAvailable = true;
                     _bookRepository.Insert(book);
@@ -93,13 +93,6 @@ public class MainPanel
                 case 6:
                 {
                     _returnTheBook.BookReturn();
-                    Continue();
-                    break;
-                }
-
-                case 7:
-                {
-                    _allBooks.PrintAllBooks();
                     Continue();
                     break;
                 }

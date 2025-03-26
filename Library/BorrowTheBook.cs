@@ -24,7 +24,7 @@ public class BorrowTheBook
 
         if (book != null)
         {
-            BookIsAvailable(book);
+            ChangeBookAvailability(book);
         }
         else
         {
@@ -32,18 +32,16 @@ public class BorrowTheBook
         }
     }
 
-    private bool BookIsAvailable(Book book)
+    private bool ChangeBookAvailability(Book book)
     {
-        if (_isAvailable.BookAvailable(book))
+        if (_isAvailable.IsBookAvailable(book))
         {
-            Console.WriteLine("You can borrow!");
             book.IsAvailable = false; 
             _bookRepository.Update(book);
             _bookRepository.Save();
             return true; 
         }
 
-        Console.WriteLine("Book is not available, you cant't borrow");
         return false;
     }
 }
