@@ -4,35 +4,37 @@ namespace Library;
 
 public class UIService
 {
+    private readonly BookRepository _bookRepository;
     
-    public string BookReturn()
+    public UIService()
+    {
+        _bookRepository = new BookRepository();
+    }
+    
+    public void BookReturn()
     {
         Console.WriteLine("What book you want to return?");
-        var book = _findTheBook.FindTheBookFromDatabase();
+        var book = FindTheBookFromDatabase();
 
         if (book == null)
         {
             Console.WriteLine("This book does not exist");
-            return "Error";
         }
 
         if (!BookIsOnTheLibrary(book))
         {
             Console.WriteLine("Book is available, you can't return to the library");
-            return "Error";
         }
 
         BookBackToLibrary(book);
         
         Console.WriteLine("Book returned");
-        return "Ok";
-
     }
 
 
     private bool BookBackToLibrary(Book book)
     {
-        if (!_isAvailable.BookAvailable(book))
+        if (!BookAvailable(book))
         {
             book.IsAvailable = true; 
             _bookRepository.Update(book);
@@ -46,7 +48,7 @@ public class UIService
     
     private bool BookIsOnTheLibrary(Book book)
     {
-        if (_isAvailable.BookAvailable(book))
+        if (BookAvailable(book))
         {
             return false;
         }
@@ -55,7 +57,7 @@ public class UIService
     }
     public string DeleteBook()
     {
-        var bookForDelete = _findTheBook.FindTheBookFromDatabase();
+        var bookForDelete = FindTheBookFromDatabase();
 
         if (bookForDelete != null)
         {
@@ -117,51 +119,58 @@ public class UIService
     {
         try
         {
-            var bookToFind = _findTheBook.FindTheBookFromDatabase();
+            var bookToFind = FindTheBookFromDatabase();
 
-            if (bookToFind != null)
+            if (bookToFind == null)
             {
-                Console.WriteLine($"Book found: {bookToFind.Title} by {bookToFind.Author}");
-
-                Console.WriteLine("Which part of the book do you want to edit?"
-                                  + "\n1. Title"
-                                  + "\n2. Author"
-                                  + "\n3. Category");
-
-                int option;
-                while (true)
-                {
-                    var answer = Console.ReadLine();
-                    if (int.TryParse(answer, out option) && (option == 1 || option == 2 || option == 3))
-                    {
-                        break;
-                    }
-                    Console.WriteLine("Please enter a valid number (1, 2, or 3)!");
-                }
-
-                Console.WriteLine("Enter the new value:");
-
-                switch (option)
-                {
-                    case 1:
-                        bookToFind.Title = _uiService.GetTitle();
-                        break;
-                    case 2:
-                        bookToFind.Author = _uiService.GetAuthor();
-                        break;
-                    case 3:
-                        bookToFind.Category = _uiService.GetCategory();
-                        break;
-                }
-
-                _bookRepository.Update(bookToFind);
-                _bookRepository.Save();
-                Console.WriteLine("Book updated successfully!");
+                Console.WriteLine("This book does not exist");
+                return;
             }
-            else
+            
+            Console.WriteLine($"Book found: {bookToFind.Title} by {bookToFind.Author}");
+
+            Console.WriteLine("Which part of the book do you want to edit?"
+                              + "\n1. Title"
+                              + "\n2. Author"
+                              + "\n3. Category");
+
+            int option;
+            
+            while (true)
             {
-                Console.WriteLine("Book not found.");
+                var answer = Console.ReadLine();
+                if (int.TryParse(answer, out option) && (option == 1 || option == 2 || option == 3))
+                {
+                    break;
+                }
+                Console.WriteLine("Please enter a valid number (1, 2, or 3)!");
             }
+
+            Console.WriteLine("Enter the new value:");
+
+            switch (option)
+            {
+                case 1:
+                {
+                    bookToFind.Title = GetTitle();
+                    break;
+                }
+                case 2:
+                {
+                    bookToFind.Author = GetAuthor();
+                    break;
+                }
+                case 3:
+                {
+                    bookToFind.Category = GetCategory();
+                    break;
+                }
+            }
+            
+            _bookRepository.Update(bookToFind);
+            _bookRepository.Save();
+            Console.WriteLine("Book updated successfully!");
+
         }
         catch (Exception ex)
         {
