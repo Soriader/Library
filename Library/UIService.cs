@@ -282,62 +282,63 @@ public class UIService
                                           + "\n4. Romance"
                                           + "\n5. Young Adult", 1, 5);
 
-        if (ConfirmUserInput("This answer is correct? yes/no"))
-        {
-            string answer = "";
-            switch (category)
-            {
-                case "1":
-                {
-                    category = "Fantasy";
-                    break;
-                }
-                case "2":
-                {
-                    category = "Sci-Fi";
-                    break;
-                }
-                case "3":
-                {
-                    category = "Thriller";
-                    break;
-                }
-                case "4":
-                {
-                    category = "Romance";
-                    break;
-                }
-                case "5":
-                {
-                    category = "Young Adult";
-                    break;
-                }
-            }
-            
-            return category;
-        }
-        else
-        {
-            category = RetrieveUserInputForInt("Please write correct category", 1, 5);
 
-            if (ConfirmUserInput("This answer is correct? yes/no"))
+        if (!ConfirmUserInput("This answer is correct? yes/no"))
+        {
+            CorrectCategory(category);
+        }
+        
+        switch (category)
+        {
+            case "1":
             {
-                return category;
+                category = "Fantasy";
+                break;
             }
-            else
+            case "2":
             {
-                while (true)
-                {
-                    category = RetrieveUserInputForInt("Please write correct category!", 1, 5);
-                    
-                    if (ConfirmUserInput("This answer is correct? yes/no"))
-                    {
-                        break;
-                    }
-                }
-                return category;
+                category = "Sci-Fi";
+                break;
+            }
+            case "3":
+            {
+                category = "Thriller";
+                break;
+            }
+            case "4":
+            {
+                category = "Romance";
+                break;
+            }
+            case "5":
+            {
+                category = "Young Adult";
+                break;
             }
         }
+            
+        return category;
+        
+    }
+
+    private string CorrectCategory(string category)
+    {
+        category = RetrieveUserInputForInt("Please write correct category", 1, 5);
+
+        if (!ConfirmUserInput("This answer is correct? yes/no"))
+        {
+            while (true)
+            {
+                category = RetrieveUserInputForInt("Please write correct category!", 1, 5);
+                    
+                if (ConfirmUserInput("This answer is correct? yes/no"))
+                {
+                    break;
+                }
+            }
+        } 
+        
+        return category;
     }
 
     public long RetrieveISBN()
