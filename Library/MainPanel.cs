@@ -4,24 +4,12 @@ namespace Library;
 
 public class MainPanel
 {
-    private readonly AddNewBook _addNewBook;
-    private readonly FindTheBook _findTheBook;
-    private readonly EditTheExistBooks _editTheExistBooks;
     private readonly BookRepository _bookRepository;
-    private readonly RemoveBook _removeBook;
-    private readonly BorrowTheBook _borrowTheBook;
-    private readonly ReturnTheBook _returnTheBook;
     private readonly UIService _uiService;
     
     public MainPanel()
     {
-        _addNewBook = new AddNewBook();
-        _findTheBook = new FindTheBook();
-        _editTheExistBooks = new EditTheExistBooks();
         _bookRepository = new BookRepository();
-        _removeBook = new RemoveBook();
-        _borrowTheBook = new BorrowTheBook();
-        _returnTheBook = new ReturnTheBook();
         _uiService = new UIService();
     }
     
@@ -64,37 +52,35 @@ public class MainPanel
 
                 case 2:
                 {
-                    _findTheBook.BookFinder();
+                    _uiService.BookFinder();
                     Continue();
                     break;
                 }
 
                 case 3:
                 {
-                    _editTheExistBooks.BookEditor();
+                    _uiService.BookEditor();
                     Continue();
                     break;
                 }
                 
                 case 4:
                 {
-                    _removeBook.DeleteBook();
+                    _uiService.DeleteBook();
                     Continue();
                     break;
                 }
 
-                /*
                 case 5:
                 {
-                    _borrowTheBook.Borrow();
+                    _uiService.Borrow();
                     Continue();
                     break;
                 }
-                */
                 
                 case 6:
                 {
-                    _returnTheBook.BookReturn();
+                    _uiService.BookReturn();
                     Continue();
                     break;
                 }

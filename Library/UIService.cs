@@ -249,29 +249,6 @@ public class UIService
         return user;
     }
     
-    /*private string GetUserInput(string user)
-{
-    string userInput;
-    do
-    {
-        Console.WriteLine(user);
-        userInput = Console.ReadLine();
-    } while (string.IsNullOrEmpty(userInput));
-
-    return userInput;
-}*/
-    
-    /*private bool ConfirmUserInput(string user)
-    {
-        string userInput;
-        do
-        {
-            Console.WriteLine(user);
-            userInput = Console.ReadLine().ToLower();
-        } while (userInput != "yes" && userInput != "no");
-
-        return userInput == "yes";
-    }*/
 
     public string RetrieveCategory()
     {
