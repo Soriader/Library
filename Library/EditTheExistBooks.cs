@@ -7,14 +7,14 @@ public class EditTheExistBooks
 {
 
     private readonly FindTheBook _findTheBook;
-    private AddNewBook changeTheBookPropertise;
+    private readonly UIService _uiService;
     private readonly BookRepository _bookRepository;
 
     public EditTheExistBooks()
     {
         _findTheBook = new FindTheBook();
         _bookRepository = new BookRepository();
-        
+        _uiService = new UIService();
     }
 
     public void BookEditor()
@@ -48,13 +48,13 @@ public class EditTheExistBooks
                 switch (option)
                 {
                     case 1:
-                        bookToFind.Title = changeTheBookPropertise.GetTitle();
+                        bookToFind.Title = _uiService.RetrieveTitle();
                         break;
                     case 2:
-                        bookToFind.Author = changeTheBookPropertise.GetAuthor();
+                        bookToFind.Author = _uiService.RetrieveAuthor();
                         break;
                     case 3:
-                        bookToFind.Category = changeTheBookPropertise.GetCategory();
+                        bookToFind.Category = _uiService.RetrieveCategory();
                         break;
                 }
 

@@ -14,36 +14,5 @@ public class BorrowTheBook
         _findTheBook = new FindTheBook();
         _isAvailable = new IsAvailable();
     }
-
-
-    public void Borrow()
-    {
-        Console.WriteLine("What book you want to borrow?");
-        
-        var book = _findTheBook.FindTheBookFromDatabase();
-
-        if (book != null)
-        {
-            BookIsAvailable(book);
-        }
-        else
-        {
-            Console.WriteLine("Book is not available");
-        }
-    }
-
-    private bool BookIsAvailable(Book book)
-    {
-        if (_isAvailable.BookAvailable(book))
-        {
-            Console.WriteLine("You can borrow!");
-            book.IsAvailable = false; 
-            _bookRepository.Update(book);
-            _bookRepository.Save();
-            return true; 
-        }
-
-        Console.WriteLine("Book is not available, you cant't borrow");
-        return false;
-    }
+    
 }
