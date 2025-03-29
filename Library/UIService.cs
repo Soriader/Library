@@ -19,22 +19,23 @@ public class UIService
         if (book == null)
         {
             Console.WriteLine("This book does not exist");
+            return;
         }
 
         if (!BookIsOnTheLibrary(book))
         {
             Console.WriteLine("Book is available, you can't return to the library");
+            return;
         }
 
         BookBackToLibrary(book);
         
         Console.WriteLine("Book returned");
     }
-
-
+    
     private bool BookBackToLibrary(Book book)
     {
-        if (!BookAvailable(book))
+        if (!IsBookAvailable(book))
         {
             book.IsAvailable = true; 
             _bookRepository.Update(book);
@@ -45,10 +46,9 @@ public class UIService
         return false;
     }
     
-    
     private bool BookIsOnTheLibrary(Book book)
     {
-        if (BookAvailable(book))
+        if (IsBookAvailable(book))
         {
             return false;
         }
@@ -59,27 +59,27 @@ public class UIService
     {
         var bookForDelete = FindTheBookFromDatabase();
 
-        if (bookForDelete != null)
+        if (bookForDelete == null)
         {
-            _bookRepository.Delete(bookForDelete.Id);
-            _bookRepository.Save();
-            return $"Book '{bookForDelete.Title}' by {bookForDelete.Author} has been removed.";
+            return "Book not found.";
         }
 
-        return "Book not found.";
+        _bookRepository.Delete(bookForDelete.Id);
+        _bookRepository.Save();
+        return $"Book '{bookForDelete.Title}' by {bookForDelete.Author} has been removed.";
     }
     
     public string BookFinder()
     {
         Book foundBook = FindTheBookFromDatabase();
 
-        if (foundBook != null)
+        if (foundBook == null)
         {
-            return $"Book found: {foundBook.Title} by {foundBook.Author}";
+            Console.WriteLine("Book not found in the database.");
+            return "Book not found";
         }
         
-        Console.WriteLine("Book not found in the database.");
-        return "Book not found";
+        return $"Book found: {foundBook.Title} by {foundBook.Author}";
     }
 
     public Book FindTheBookFromDatabase()
@@ -99,7 +99,7 @@ public class UIService
         bool searchOption = (int.Parse(answer) - 1) == 0;
             
         string searchTerm =
-            GetUserInput(searchOption ? "Please enter the book title:" : "Please enter the author:");
+            RetrieveUserInput(searchOption ? "Please enter the book title:" : "Please enter the author:");
         
         return ReturnBook(searchOption, searchTerm);
     }
@@ -152,17 +152,17 @@ public class UIService
             {
                 case 1:
                 {
-                    bookToFind.Title = GetTitle();
+                    bookToFind.Title = RetrieveTitle();
                     break;
                 }
                 case 2:
                 {
-                    bookToFind.Author = GetAuthor();
+                    bookToFind.Author = RetrieveAuthor();
                     break;
                 }
                 case 3:
                 {
-                    bookToFind.Category = GetCategory();
+                    bookToFind.Category = RetrieveCategory();
                     break;
                 }
             }
@@ -182,7 +182,7 @@ public class UIService
     {
         Console.WriteLine("What book you want to borrow?");
         
-        var book = _findTheBook.FindTheBookFromDatabase();
+        var book = FindTheBookFromDatabase();
 
         if (book != null)
         {
@@ -203,73 +203,79 @@ public class UIService
         return false;
     }
     
-    public string GetTitle()
-    {
-        var title = GetUserInput("Please enter the name of the book you would like to add");
     
-        if (ConfirmUserInput("This answer is correct? yes/no"))
+    public string RetrieveTitle()
+    {
+        var title = RetrieveUserInput("Please enter the name of the book you would like to add");
+    
+        if (!ConfirmUserInput("This answer is correct? yes/no"))
         {
-            return title;
+            CorrectAuthorOrTitleName(title, "title");
         }
-        else
-        {
-            title = GetUserInput("Please write correct title");
-
-            if (ConfirmUserInput("This answer is correct? yes/no"))
-            {
-                return title;
-            }
-            else
-            {
-                while (true)
-                {
-                    title = GetUserInput("Please write correct title!");
-                    
-                    if (ConfirmUserInput("This answer is correct? yes/no"))
-                    {
-                        break;
-                    }
-                }
-                return title;
-            }
-        }
+        
+        return title;
+        
     }
     
-    public string GetAuthor()
+    public string RetrieveAuthor()
     {
-        var author = GetUserInput("Please enter the name of the author you would like to add");
+        var author = RetrieveUserInput("Please enter the name of the author you would like to add");
 
-        if (ConfirmUserInput("This answer is correct? yes/no"))
+        if (!ConfirmUserInput("This answer is correct? yes/no"))
         {
-            return author;
+            CorrectAuthorOrTitleName(author, "author");
         }
-        else
-        {
-            author = GetUserInput("Please write correct author");
-
-            if (ConfirmUserInput("This answer is correct? yes/no"))
-            {
-                return author;
-            }
-            else
-            {
-                while (true)
-                {
-                    author = GetUserInput("Please write correct author!");
-                    
-                    if (ConfirmUserInput("This answer is correct? yes/no"))
-                    {
-                        break;
-                    }
-                }
-                return author;
-            }
-        }
+        
+        return author;
+        
     }
 
-    public string GetCategory()
+    private string CorrectAuthorOrTitleName(string user, string input)
     {
-        var category = GetUserInputForInt("Please enter the number of the category of this book. We have five category" 
+        user = RetrieveUserInput($"Please write correct {input}");
+
+        var check = ConfirmUserInput(user);
+
+        while (!check)
+        {
+            user = RetrieveUserInput($"Please write correct {input}!");
+                    
+            if (ConfirmUserInput("This answer is correct? yes/no"))
+            {
+                break;
+            }
+        }
+        
+        return user;
+    }
+    
+    /*private string GetUserInput(string user)
+{
+    string userInput;
+    do
+    {
+        Console.WriteLine(user);
+        userInput = Console.ReadLine();
+    } while (string.IsNullOrEmpty(userInput));
+
+    return userInput;
+}*/
+    
+    /*private bool ConfirmUserInput(string user)
+    {
+        string userInput;
+        do
+        {
+            Console.WriteLine(user);
+            userInput = Console.ReadLine().ToLower();
+        } while (userInput != "yes" && userInput != "no");
+
+        return userInput == "yes";
+    }*/
+
+    public string RetrieveCategory()
+    {
+        var category = RetrieveUserInputForInt("Please enter the number of the category of this book. We have five category" 
                                           + "\n1. Fantasy"
                                           + "\n2. Sci-Fi"
                                           + "\n3. Thriller/Crime"
@@ -312,7 +318,7 @@ public class UIService
         }
         else
         {
-            category = GetUserInputForInt("Please write correct category", 1, 5);
+            category = RetrieveUserInputForInt("Please write correct category", 1, 5);
 
             if (ConfirmUserInput("This answer is correct? yes/no"))
             {
@@ -322,7 +328,7 @@ public class UIService
             {
                 while (true)
                 {
-                    category = GetUserInputForInt("Please write correct category!", 1, 5);
+                    category = RetrieveUserInputForInt("Please write correct category!", 1, 5);
                     
                     if (ConfirmUserInput("This answer is correct? yes/no"))
                     {
@@ -334,7 +340,7 @@ public class UIService
         }
     }
 
-    public long GetISBN()
+    public long RetrieveISBN()
     {
         long code = CorrectISBN("Please enter the ISBN of the book you would like to add" +
                                "\nThis code needs 13 numbers:");
@@ -371,7 +377,7 @@ public class UIService
         return code;
     }
     
-    private string GetUserInput(string user)
+    private string RetrieveUserInput(string user)
     {
         string userInput;
         do
@@ -383,7 +389,7 @@ public class UIService
         return userInput;
     }
     
-    private string GetUserInputWithConfirmation(string user)
+    private string RetrieveUserInputWithConfirmation(string user)
     {
         string userInput;
         do
@@ -395,7 +401,7 @@ public class UIService
         return userInput;
     }
     
-    private string GetUserInputForInt(string prompt, int min, int max)
+    private string RetrieveUserInputForInt(string prompt, int min, int max)
     {
         string userInput;
         int number;

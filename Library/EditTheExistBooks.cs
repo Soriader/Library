@@ -48,13 +48,13 @@ public class EditTheExistBooks
                 switch (option)
                 {
                     case 1:
-                        bookToFind.Title = _uiService.GetTitle();
+                        bookToFind.Title = _uiService.RetrieveTitle();
                         break;
                     case 2:
-                        bookToFind.Author = _uiService.GetAuthor();
+                        bookToFind.Author = _uiService.RetrieveAuthor();
                         break;
                     case 3:
-                        bookToFind.Category = _uiService.GetCategory();
+                        bookToFind.Category = _uiService.RetrieveCategory();
                         break;
                 }
 

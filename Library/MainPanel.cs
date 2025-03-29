@@ -50,10 +50,10 @@ public class MainPanel
             {
                 case 1:
                 {
-                    var book = new Book(_uiService.GetTitle(), 
-                        _uiService.GetAuthor(), 
-                        _uiService.GetCategory(),
-                        _uiService.GetISBN());
+                    var book = new Book(_uiService.RetrieveTitle(), 
+                        _uiService.RetrieveAuthor(), 
+                        _uiService.RetrieveCategory(),
+                        _uiService.RetrieveISBN());
                     
                     book.IsAvailable = true;
                     _bookRepository.Insert(book);
@@ -83,12 +83,14 @@ public class MainPanel
                     break;
                 }
 
+                /*
                 case 5:
                 {
                     _borrowTheBook.Borrow();
                     Continue();
                     break;
                 }
+                */
                 
                 case 6:
                 {
